@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('../middleware/auth');
-const controller = require('../controllers/employeeController');
+const upload = require('../middleware/upload');
+const verifyToken = require('../middleware/auth');
 
-router.post('/login', controller.login);
+const {
+  login,
+  saveEmployee,
+  getEmployees,
+  deleteEmployee,
+  updateEmployee,
+  getEmployeeById
+} = require('../controller/employeeController');
 
-router.post('/save', auth, controller.saveEmployee);
+router.post('/login', login);
 
-// ✅ STATIC ROUTES FIRST
-router.get('/all', auth, controller.getEmployees);
-
-// ❗ DYNAMIC ROUTES LAST
-router.get('/:id', auth, controller.getEmployeeById);
-router.put('/update/:id', auth, controller.updateEmployee);
-router.delete('/delete/:id', auth, controller.deleteEmployee);
+router.post('/save', verifyToken, upload.single('photo'), saveEmployee);
+router.get('/all', verifyToken, getEmployees);
+router.delete('/delete/:id', verifyToken, deleteEmployee);
+router.put('/update/:id', verifyToken, updateEmployee);
+router.get('/:id', verifyToken, getEmployeeById);
 
 module.exports = router;
