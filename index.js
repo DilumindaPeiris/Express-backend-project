@@ -10,7 +10,7 @@ const employeeRoutes = require('./routes/employeeRoutes');
 app.use('/api/v1/employee', employeeRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Hello migara!');
+  res.send('Hello Dilu!');
 });
 
 const port = process.env.PORT || 3000;
